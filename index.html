@@ -6,6 +6,11 @@
   <title>Welcome to Recipe Finder</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
   <link rel="stylesheet" href="style.css">
+  <style>
+    .recipe-details {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
@@ -34,7 +39,7 @@
               <img src="/home/lucy/Downloads/Fish.jpeg" alt="food" onclick="showRecipe(this)">
             </div>
             <div class="meal-name">
-              <h3>Tasty Grilled Tilapi</h3>
+              <h3>Tasty Grilled Tilapia</h3>
               <a href="#" class="recipe-btn" onclick="showRecipe(this)">Get Recipe</a>
             </div>
           </div>
@@ -53,7 +58,7 @@
         <div class="meal-details-content">
           <h2 class="recipe-title">Meals Name Here</h2>
           <p class="recipe-category">Category Name</p>
-          <div class="recipe-instruct">
+          <div class="recipe-instruct" id="recipe-instruct">
             <h3>Instructions:</h3>
             <p>Remove the dirt from the fish and wash it with salt and water or lime and water and pat it dry with a paper towel then set it aside.
               To make the Marinade, combine all the ingredients together in a blender and blend till it becomes a smooth paste. Pour it inside a bowl and set it aside.
@@ -64,7 +69,7 @@
               When the 10 minutes is complete, flip it to the first side again and rub it with the remaining marinade. Then leave it in the Oven for another 5 to 10 minutes depending on how brown you want the Fish to be.</p>
           </div>
           <div class="recipe-meal-img">
-            <img src="Fish.jpeg" alt="" id="recipe-img">
+            <img src="Fish.jpeg" alt="" id="recipe-img" onclick="toggleInstructions()">
           </div>
           <div class="recipe-link">
             <a href="https://youtu.be/1LtXG6CQmZc" target="_blank">Watch Video</a>
@@ -80,17 +85,31 @@
       var recipeDetails = document.getElementById('meal-details');
       var recipeImg = document.getElementById('recipe-img');
       var recipeTitle = document.querySelector('.recipe-title');
+      var recipeInstruct = document.getElementById('recipe-instruct');
       var mealName = element.parentNode.querySelector('h3').innerText;
       var mealImgSrc = element.parentNode.querySelector('img').src;
 
       recipeDetails.style.display = 'block';
       recipeImg.src = mealImgSrc;
       recipeTitle.innerText = mealName;
+      recipeInstruct.style.display = 'block';
     }
 
     function hideRecipe() {
       var recipeDetails = document.getElementById('meal-details');
+      var recipeInstruct = document.getElementById('recipe-instruct');
+
       recipeDetails.style.display = 'none';
+      recipeInstruct.style.display = 'none';
+    }
+
+    function toggleInstructions() {
+      var recipeInstruct = document.getElementById('recipe-instruct');
+      if (recipeInstruct.style.display === 'none') {
+        recipeInstruct.style.display = 'block';
+      } else {
+        recipeInstruct.style.display = 'none';
+      }
     }
   </script>
 </body>
