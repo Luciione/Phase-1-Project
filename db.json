@@ -1,0 +1,13 @@
+{
+  "meals": 
+    {
+      "idMeal": "1",
+      "strMeal": "Tasty Grilled Tilapia",
+      "strCategory": "Seafood",
+      "strInstructions": "Remove the dirt from the fish and wash it with salt and water or lime and water and pat it dry with a paper towel then set it aside.",
+      "strMealThumb": "Fish.jpeg",
+      "strYoutube": "https://youtu.be/1LtXG6CQmZc"
+    }
+    
+
+}
