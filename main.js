@@ -1,75 +1,111 @@
+const express = require('express');
+const app = express();
 const searchBtn = document.getElementById('search-btn');
 const mealList = document.getElementById('meal');
 const mealDetailsContent = document.querySelector('.meal-details-content');
 const recipeCloseBtn = document.getElementById('recipe-close-btn');
-const notFound = document.getElementById('notFound');
 
-// event listeners
+const appId = '8cf7fb00';
+const appKey = 'e2558cd13d861421e5aa229f6f47551b';
+
 searchBtn.addEventListener('click', getMealList);
 mealList.addEventListener('click', getMealRecipe);
 recipeCloseBtn.addEventListener('click', () => {
   mealDetailsContent.parentElement.classList.remove('showRecipe');
 });
 
-// get meal list that matches with the ingredients
 function getMealList() {
-  let searchInputTxt = document.getElementById('search-input').value.trim();
-  fetch(`https://www.edamam.com/results/recipes/?search=seafood/api/json/v1/1/filter.php?i=${searchInputTxt}`)
+    fetch('data.json') 
     .then(response => response.json())
     .then(data => {
       let html = "";
       if (data.meals) {
         data.meals.forEach(meal => {
           html += `
-            <div class="meal-item" data-id="${meal.idMeal}">
+            <div class="meal-item">
               <div class="meal-img">
-                <img src="${meal.strMealThumb}" alt="food">
+                <img src="${meal.strMealThumb}" alt="food" onclick="showRecipe(this)" data-instructions="${meal.strInstructions}" data-video="${meal.strYoutube}">
               </div>
               <div class="meal-name">
                 <h3>${meal.strMeal}</h3>
-                <a href="#" class="recipe-btn">Get Recipe</a>
+                <a href="#" class="recipe-btn" onclick="showRecipe(this)">Get Recipe</a>
               </div>
             </div>
           `;
         });
-        notFound.style.display = 'none';
+        mealList.classList.remove('notFound');
       } else {
         html = "Sorry, we didn't find any meal!";
-        notFound.style.display = 'block';
+        mealList.classList.add('notFound');
       }
 
       mealList.innerHTML = html;
     });
 }
 
-// get recipe of the meal
 function getMealRecipe(e) {
   e.preventDefault();
   if (e.target.classList.contains('recipe-btn')) {
     let mealItem = e.target.parentElement.parentElement;
-    fetch(`https://www.edamam.com/results/recipes/?search=salad/api/json/v1/1/lookup.php?i=${mealItem.dataset.id}`)
+    const mealId = mealItem.dataset.id;
+    fetch(`https://api.edamam.com/api/recipes/v2/${mealId}?type=public&app_id=${appId}&app_key=${appKey}`)
       .then(response => response.json())
-      .then(data => mealRecipeModal(data.meals));
+      .then(data => mealRecipeModal(data.recipe));
   }
 }
 
-// create a modal
-function mealRecipeModal(meal) {
-  meal = meal[0];
-  let html = `
-    <h2 class="recipe-title">${meal.strMeal}</h2>
-    <p class="recipe-category">${meal.strCategory}</p>
-    <div class="recipe-instruct">
-      <h3>Instructions:</h3>
-      <p>${meal.strInstructions}</p>
-    </div>
-    <div class="recipe-meal-img">
-      <img src="${meal.strMealThumb}" alt="">
-    </div>
-    <div class="recipe-link">
-      <a href="${meal.strYoutube}" target="_blank">Watch Video</a>
-    </div>
-  `;
-  mealDetailsContent.innerHTML = html;
-  mealDetailsContent.parentElement.classList.add('showRecipe');
+function showRecipe(element) {
+  const recipeDetails = document.getElementById('meal-details');
+  const recipeImg = document.getElementById('recipe-img');
+  const recipeTitle = document.querySelector('.recipe-title');
+  const recipeCategory = document.querySelector('.recipe-category');
+  const recipeInstructions = document.querySelector('.recipe-instruct');
+  const recipeVideoLink = document.querySelector('.recipe-link a');
+  const mealName = element.parentNode.querySelector('h3').innerText;
+  const mealImgSrc = element.parentNode.querySelector('img').src;
+
+  recipeDetails.style.display = 'block';
+  recipeImg.src = mealImgSrc;
+  recipeTitle.innerText = mealName;
+  recipeInstructions.innerHTML = element.dataset.instructions;
+  recipeVideoLink.href = element.dataset.video;
+  recipeCategory.innerText = "Category: Seafood";
+
+  const instructions = "Remove the dirt from the Fish";
+  recipeInstructions.innerHTML = "<h3>Instructions:</h3><p>" + instructions + "</p>";
 }
+
+function hideRecipe() {
+  const recipeDetails = document.getElementById('meal-details');
+  recipeDetails.style.display = 'none';
+}
+
+function mealRecipeModal(recipe) {
+    
+    const recipeTitle = recipe.label;
+    const recipeImage = recipe.image;
+    const recipeInstructions = recipe.instructions;
+    const recipeVideo = recipe.video;
+  
+    
+    const recipeTitleElement = document.querySelector('.recipe-title');
+    recipeTitleElement.innerText = recipeTitle;
+  
+    
+    const recipeImg = document.getElementById('recipe-img');
+    recipeImg.src = recipeImage;
+  
+    
+    const recipeInstructionsElement = document.querySelector('.recipe-instruct');
+    recipeInstructionsElement.innerHTML = `<h3>Instructions:</h3><p>${recipeInstructions}</p>`;
+  
+    
+    const recipeVideoLink = document.querySelector('.recipe-link a');
+    recipeVideoLink.href = recipeVideo;
+  
+    
+    const recipeDetails = document.getElementById('meal-details');
+    recipeDetails.style.display = 'block';
+  
+    
+  }
