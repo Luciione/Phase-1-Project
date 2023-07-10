@@ -65,6 +65,7 @@ function getMealRecipe(e) {
   }
 }
 
+
 function showRecipe(element) {
   const recipeDetails = document.getElementById('meal-details');
   const recipeImg = document.getElementById('recipe-img');
@@ -82,14 +83,26 @@ function showRecipe(element) {
   recipeVideoLink.href = element.dataset.video;
   recipeCategory.innerText = "Category: Seafood";
 
-  const instructions = "Remove the dirt from the Fish";
-  recipeInstructions.innerHTML = "<h3>Instructions:</h3><p>" + instructions + "</p>";
+  const mealInstructions = element.parentNode.querySelector('.meal-instructions');
+  if (mealInstructions.innerHTML.trim() === '') {
+    const instructions = element.dataset.instructions;
+    mealInstructions.innerHTML = "<h3>Instructions:</h3><p>" + instructions + "</p>";
+  }
+
+  const recipeCloseBtn = document.getElementById('recipe-close-btn');
+  recipeCloseBtn.addEventListener('click', () => {
+    hideRecipe();
+  });
 }
 
 function hideRecipe() {
   const recipeDetails = document.getElementById('meal-details');
   recipeDetails.style.display = 'none';
 }
+
+
+
+
 
 function mealRecipeModal(recipe) {
   const recipeTitle = recipe.label;
