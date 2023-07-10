@@ -14,7 +14,7 @@ recipeCloseBtn.addEventListener('click', () => {
 // get meal list that matches with the ingredients
 function getMealList() {
   let searchInputTxt = document.getElementById('search-input').value.trim();
-  fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInputTxt}`)
+  fetch(`https://www.edamam.com/results/recipes/?search=seafood/api/json/v1/1/filter.php?i=${searchInputTxt}`)
     .then(response => response.json())
     .then(data => {
       let html = "";
@@ -47,7 +47,7 @@ function getMealRecipe(e) {
   e.preventDefault();
   if (e.target.classList.contains('recipe-btn')) {
     let mealItem = e.target.parentElement.parentElement;
-    fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealItem.dataset.id}`)
+    fetch(`https://www.edamam.com/results/recipes/?search=salad/api/json/v1/1/lookup.php?i=${mealItem.dataset.id}`)
       .then(response => response.json())
       .then(data => mealRecipeModal(data.meals));
   }
