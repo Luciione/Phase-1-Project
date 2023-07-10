@@ -8,39 +8,50 @@ const recipeCloseBtn = document.getElementById('recipe-close-btn');
 const appId = '8cf7fb00';
 const appKey = 'e2558cd13d861421e5aa229f6f47551b';
 
-searchBtn.addEventListener('click', getMealList);
+searchBtn.addEventListener('click', searchMeals);
 mealList.addEventListener('click', getMealRecipe);
 recipeCloseBtn.addEventListener('click', () => {
   mealDetailsContent.parentElement.classList.remove('showRecipe');
 });
 
-function getMealList() {
-    fetch('data.json') // Assuming the data is stored in a file named 'data.json'
-    .then(response => response.json())
-    .then(data => {
-      let html = "";
-      if (data.meals) {
-        data.meals.forEach(meal => {
-          html += `
-            <div class="meal-item">
-              <div class="meal-img">
-                <img src="${meal.strMealThumb}" alt="food" onclick="showRecipe(this)" data-instructions="${meal.strInstructions}" data-video="${meal.strYoutube}">
-              </div>
-              <div class="meal-name">
-                <h3>${meal.strMeal}</h3>
-                <a href="#" class="recipe-btn" onclick="showRecipe(this)">Get Recipe</a>
-              </div>
-            </div>
-          `;
-        });
-        mealList.classList.remove('notFound');
-      } else {
-        html = "Sorry, we didn't find any meal!";
-        mealList.classList.add('notFound');
-      }
+function searchMeals() {
+  const searchInput = document.getElementById('search-input').value.trim();
+  if (searchInput !== '') {
+    fetch(`https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}&app_id=${appId}&app_key=${appKey}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.count > 0) {
+          const meals = data.hits.map(hit => hit.recipe);
+          displayMealList(meals);
+        } else {
+          mealList.innerHTML = 'No meals found.';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        mealList.innerHTML = 'An error occurred while fetching the data.';
+      });
+  } else {
+    mealList.innerHTML = 'Please enter an ingredient to search.';
+  }
+}
 
-      mealList.innerHTML = html;
-    });
+function displayMealList(meals) {
+  let html = '';
+  meals.forEach(meal => {
+    html += `
+      <div class="meal-item">
+        <div class="meal-img">
+          <img src="${meal.image}" alt="food" onclick="showRecipe(this)" data-instructions="${meal.instructions}" data-video="${meal.video}">
+        </div>
+        <div class="meal-name">
+          <h3>${meal.label}</h3>
+          <a href="#" class="recipe-btn" onclick="showRecipe(this)">Get Recipe</a>
+        </div>
+      </div>
+    `;
+  });
+  mealList.innerHTML = html;
 }
 
 function getMealRecipe(e) {
@@ -81,32 +92,23 @@ function hideRecipe() {
 }
 
 function mealRecipeModal(recipe) {
-    
-    const recipeTitle = recipe.label;
-    const recipeImage = recipe.image;
-    const recipeInstructions = recipe.instructions;
-    const recipeVideo = recipe.video;
-  
-    
-    const recipeTitleElement = document.querySelector('.recipe-title');
-    recipeTitleElement.innerText = recipeTitle;
-  
-    
-    const recipeImg = document.getElementById('recipe-img');
-    recipeImg.src = recipeImage;
-  
-    
-    const recipeInstructionsElement = document.querySelector('.recipe-instruct');
-    recipeInstructionsElement.innerHTML = `<h3>Instructions:</h3><p>${recipeInstructions}</p>`;
-  
-    
-    const recipeVideoLink = document.querySelector('.recipe-link a');
-    recipeVideoLink.href = recipeVideo;
-  
-    
-    const recipeDetails = document.getElementById('meal-details');
-    recipeDetails.style.display = 'block';
-  
-    
-  }
-  
+  const recipeTitle = recipe.label;
+  const recipeImage = recipe.image;
+  const recipeInstructions = recipe.instructions;
+  const recipeVideo = recipe.video;
+
+  const recipeTitleElement = document.querySelector('.recipe-title');
+  recipeTitleElement.innerText = recipeTitle;
+
+  const recipeImg = document.getElementById('recipe-img');
+  recipeImg.src = recipeImage;
+
+  const recipeInstructionsElement = document.querySelector('.recipe-instruct');
+  recipeInstructionsElement.innerHTML = `<h3>Instructions:</h3><p>${recipeInstructions}</p>`;
+
+  const recipeVideoLink = document.querySelector('.recipe-link a');
+  recipeVideoLink.href = recipeVideo;
+
+  const recipeDetails = document.getElementById('meal-details');
+  recipeDetails.style.display = 'block';
+}
