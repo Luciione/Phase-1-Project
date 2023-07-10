@@ -17,7 +17,7 @@ recipeCloseBtn.addEventListener('click', () => {
 function searchMeals() {
   const searchInput = document.getElementById('search-input').value.trim();
   if (searchInput !== '') {
-    fetch(`www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata=${searchInput}&app_id=${appId}&app_key=${appKey}`)
+    fetch(`https://api.example.com/recipes?search=${searchInput}&app_id=${appId}&app_key=${appKey}`)
       .then(response => response.json())
       .then(data => {
         if (data.count > 0) {
