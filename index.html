@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Recipe Finder</title>
+  <title>Welcome to My Recipe Finder</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="container">
     <div class="meal-wrapper">
       <div class="meal-search">
-        <h2 class="title">Welcome to Recipe Finder</h2>
-        <blockquote>Search.Save.Cook.Enjoy<br>
-          <cite>-By Lucione</cite>
+        <h2 class="title">Welcome to My Recipe Finder</h2>
+        <blockquote>Search. Save. Cook. Enjoy<br>
+          <cite>- Lucione</cite>
         </blockquote>
 
         <div class="meal-search-box">
@@ -28,70 +27,74 @@
       <div class="meal-result">
         <h2 class="title">Your Search Results:</h2>
         <div id="meal">
+          <!-- meal item -->
+          <div class="meal-item">
+            <div class="meal-img">
+              <img src="Fish.jpeg" alt="Grilled Fish">
+            </div>
+            <div class="meal-name">
+              <h3>Tasty Grilled Tilapia</h3>
+              <a href="https://youtu.be/1LtXG6CQmZc" class="recipe-btn">Get Recipe</a>
+            </div>
+          </div> 
           
           <div class="meal-item">
             <div class="meal-img">
-              <img src="/home/lucy/Downloads/Fish.jpeg" alt="food" onclick="showRecipe(this)">
+              <img src="Chicken Curry.jpeg" alt="Chicken Curry">
             </div>
             <div class="meal-name">
-              <h3>Tasty Grilled Tilapi</h3>
-              <a href="#" class="recipe-btn" onclick="showRecipe(this)">Get Recipe</a>
+              <h3>Chicken Curry</h3>
+              <a href="https://youtu.be/tL98OFS5y2M" class="recipe-btn">Get Recipe</a>
             </div>
           </div>
           
-        </div>
-      </div>
+          <div class="meal-item">
+            <div class="meal-img">
+              <img src="EggStirFry.jpeg" alt="Egg Stir Fry">
+            </div>
+            <div class="meal-name">
+              <h3>Egg Stir Fry</h3>
+              <a href="https://youtu.be/Hi_c85H_cPo" class="recipe-btn">Get Recipe</a>
+            </div>
+          </div> 
 
+          <div class="meal-details">
+            <button type="button" class="btn recipe-close-btn" id="recipe-close-btn">
+              <i class="fas fa-times"></i>
+            </button>
 
-      <div class="meal-details" id="meal-details">
-        
-        <button type="button" class="btn recipe-close-btn" id="recipe-close-btn" onclick="hideRecipe()">
-          <i class="fas fa-times"></i>
-        </button>
-
-        
-        <div class="meal-details-content">
-          <h2 class="recipe-title">Meals Name Here</h2>
-          <p class="recipe-category">Category Name</p>
-          <div class="recipe-instruct">
-            <h3>Instructions:</h3>
-            <p>Remove the dirt from the fish and wash it with salt and water or lime and water and pat it dry with a paper towel then set it aside.
-              To make the Marinade, combine all the ingredients together in a blender and blend till it becomes a smooth paste. Pour it inside a bowl and set it aside.
-              Make about 3 deep cut or more on the fish depending on how big your fish is, then begin to brush the marinade over the fish, make sure you reach every corner baste every corner of the fish with the marinade including the deep cut.
-              Cover up the fish and place it in the fridge for at least 20 minutes or overnight. This will allow the Marinade to penetrate deep inside the Fish.</p>
-            <p>Remove the Fish from the Fridge, uncover the foil paper then rub it again with some Marinade and place it in a 350°F preheated Oven for the first 15 minutes
-              After 15 minutes, flip it to the other side and rub it with some marinade again. Then leave it to cook for another 10 minutes.
-              When the 10 minutes is complete, flip it to the first side again and rub it with the remaining marinade. Then leave it in the Oven for another 5 to 10 minutes depending on how brown you want the Fish to be.</p>
+            <div class="meal-details-content">
+              <h2 class="Grilled Tilapia">Meals Name Here</h2>
+              <p class="SeaFood">Category Name</p>
+              <div class="recipe-meal-img">
+                <img src="Fish.jpeg" alt="">
+              </div>
+              <div class="recipe-link">
+                <a href="https://youtu.be/1LtXG6CQmZc" target="_blank">Watch Video</a>
+              </div>
+            </div>
           </div>
-          <div class="recipe-meal-img">
-            <img src="Fish.jpeg" alt="" id="recipe-img">
+          
+          <div class="meal-result" style="display: none;">
+            <h2 class="title">Your Search Results:</h2>
+            <div id="meal"></div>
           </div>
-          <div class="recipe-link">
-            <a href="https://youtu.be/1LtXG6CQmZc" target="_blank">Watch Video</a>
+          
+          <div class="meal-item">
+            <div class="meal-img">
+              <img src="Fish.jpeg" alt="Grilled Fish" onclick="getMealInstructions(this)" data-meal-id="meal1">
+            </div>
+            <div class="meal-name">
+              <h3>Tasty Grilled Tilapia</h3>
+              <a href="#" class="recipe-btn" onclick="showRecipe(this)">Show Recipe</a>
+            </div>
+            <div class="meal-instructions" style="display: none;"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
+  
   <script src="script.js"></script>
-  <script>
-    function showRecipe(element) {
-      var recipeDetails = document.getElementById('meal-details');
-      var recipeImg = document.getElementById('recipe-img');
-      var recipeTitle = document.querySelector('.recipe-title');
-      var mealName = element.parentNode.querySelector('h3').innerText;
-      var mealImgSrc = element.parentNode.querySelector('img').src;
-
-      recipeDetails.style.display = 'block';
-      recipeImg.src = mealImgSrc;
-      recipeTitle.innerText = mealName;
-    }
-
-    function hideRecipe() {
-      var recipeDetails = document.getElementById('meal-details');
-      recipeDetails.style.display = 'none';
-    }
-  </script>
 </body>
 </html>
