@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+
 const searchBtn = document.getElementById('search-btn');
 const mealList = document.getElementById('meal');
 const mealDetailsContent = document.querySelector('.meal-details-content');
@@ -65,7 +66,6 @@ function getMealRecipe(e) {
   }
 }
 
-
 function showRecipe(element) {
   const recipeDetails = document.getElementById('meal-details');
   const recipeImg = document.getElementById('recipe-img');
@@ -81,12 +81,12 @@ function showRecipe(element) {
   recipeTitle.innerText = mealName;
   recipeInstructions.innerHTML = element.dataset.instructions;
   recipeVideoLink.href = element.dataset.video;
-  recipeCategory.innerText = "Category: Seafood";
+  recipeCategory.innerText = 'Category: Seafood';
 
   const mealInstructions = element.parentNode.querySelector('.meal-instructions');
   if (mealInstructions.innerHTML.trim() === '') {
     const instructions = element.dataset.instructions;
-    mealInstructions.innerHTML = "<h3>Instructions:</h3><p>" + instructions + "</p>";
+    mealInstructions.innerHTML = `<h3>Instructions:</h3><p>${instructions}</p>`;
   }
 
   const recipeCloseBtn = document.getElementById('recipe-close-btn');
@@ -100,9 +100,21 @@ function hideRecipe() {
   recipeDetails.style.display = 'none';
 }
 
-
-
-
+function getMealInstructions(element) {
+  const mealId = element.dataset.mealId;
+  fetch(`https://api.example.com/meals/${mealId}/instructions`)
+    .then(response => response.json())
+    .then(data => {
+      const instructions = data.instructions;
+      const mealInstructions = element.parentNode.querySelector('.meal-instructions');
+      if (mealInstructions.innerHTML.trim() === '') {
+        mealInstructions.innerHTML = `<h3>Instructions:</h3><p>${instructions}</p>`;
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
 
 function mealRecipeModal(recipe) {
   const recipeTitle = recipe.label;
