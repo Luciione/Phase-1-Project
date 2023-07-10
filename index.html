@@ -6,9 +6,9 @@
   <title>Welcome to My Recipe Finder</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
   <link rel="stylesheet" href="style.css">
-  <script src="script.js"></script>
 </head>
 <body>
+  
   <div class="container">
     <div class="meal-wrapper">
       <div class="meal-search">
@@ -19,7 +19,7 @@
 
         <div class="meal-search-box">
           <input type="text" class="search-control" placeholder="Enter an ingredient" id="search-input">
-          <button type="submit" class="search-btn btn" id="search-btn">
+          <button type="button" class="search-btn btn" id="search-btn">
             <i class="fas fa-search"></i>
           </button>
         </div>
@@ -27,75 +27,33 @@
 
       <div class="meal-result">
         <h2 class="title">Your Search Results:</h2>
-        <div id="meal">
-          <!-- meal item -->
-          <div class="meal-item">
-            <div class="meal-img">
-              <img src="Fish.jpeg" alt="Grilled Fish">
-            </div>
-            <div class="meal-name">
-              <h3>Tasty Grilled Tilapia</h3>
-              <a href="https://youtu.be/1LtXG6CQmZc" class="recipe-btn">Get Recipe</a>
-            </div>
-          </div> 
-          
-          <div class="meal-item">
-            <div class="meal-img">
-              <img src="Chicken Curry.jpeg" alt="Chicken Curry">
-            </div>
-            <div class="meal-name">
-              <h3>Chicken Curry</h3>
-              <a href="https://youtu.be/tL98OFS5y2M" class="recipe-btn">Get Recipe</a>
-            </div>
-          </div>
-          
-          <div class="meal-item">
-            <div class="meal-img">
-              <img src="EggStirFry.jpeg" alt="Egg Stir Fry">
-            </div>
-            <div class="meal-name">
-              <h3>Egg Stir Fry</h3>
-              <a href="https://youtu.be/Hi_c85H_cPo" class="recipe-btn">Get Recipe</a>
-            </div>
-          </div> 
+        <div id="meal"></div>
+        <p class="notFound" id="notFound">Sorry, we didn't find any meal!</p>
+      </div>
+      
+      <div class="meal-details">
+        <button type="button" class="btn recipe-close-btn" id="recipe-close-btn">
+          <i class="fas fa-times"></i>
+        </button>
 
-          <div class="meal-details">
-            <button type="button" class="btn recipe-close-btn" id="recipe-close-btn">
-              <i class="fas fa-times"></i>
-            </button>
-
-            <div class="meal-details-content">
-              <h2 class="Grilled Tilapia">Meals Name Here</h2>
-              <p class="SeaFood">Category Name</p>
-              <div class="recipe-meal-img">
-                <img src="Fish.jpeg" alt="">
-              </div>
-              <div class="recipe-link">
-                <a href="https://youtu.be/1LtXG6CQmZc" target="_blank">Watch Video</a>
-              </div>
-            </div>
+        <div class="meal-details-content">
+          <h2 class="recipe-title"></h2>
+          <p class="recipe-category"></p>
+          <div class="recipe-instruct">
+            <h3>Instructions:</h3>
+            <p></p>
           </div>
-          
-          <div class="meal-result" style="display: none;">
-            <h2 class="title">Your Search Results:</h2>
-            <div id="meal"></div>
+          <div class="recipe-meal-img">
+            <img src="" alt="">
           </div>
-          
-          <div class="meal-item">
-            <div class="meal-img">
-              <img src="Fish.jpeg" alt="Grilled Fish" onclick="getMealInstructions(this)" data-meal-id="meal1">
-            </div>
-            <div class="meal-name">
-              <h3>Tasty Grilled Tilapia</h3>
-              <a href="#" class="recipe-btn" onclick="showRecipe(this)">Show Recipe</a>
-            </div>
-            <div class="meal-instructions" style="display: none;"></div>
+          <div class="recipe-link">
+            <a href="" target="_blank">Watch Video</a>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+
   <script src="script.js"></script>
 </body>
 </html>
